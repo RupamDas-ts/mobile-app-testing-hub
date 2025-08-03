@@ -1,0 +1,190 @@
+[2025-08-03T10:55:09.492Z] Appium process started with PID: 53922
+[38;5;112m[Appium][0m Welcome to Appium v2.19.0
+[38;5;112m[Appium][0m The autodetected Appium home path: /Users/rupamd/.appium
+[38;5;112m[Appium][0m Attempting to load driver xcuitest...
+[38;5;112m[Appium][0m Requiring driver at /Users/rupamd/.appium/node_modules/appium-xcuitest-driver/build/index.js
+[38;5;112m[Appium][0m XCUITestDriver has been successfully loaded in 0.553s
+[38;5;112m[Appium][0m Appium REST http interface listener started on http://0.0.0.0:4723
+[38;5;112m[Appium][0m You can provide the following URLs in your client code to connect to this server:
+	http://127.0.0.1:4723/ (only accessible from the same host)
+	http://192.168.1.33:4723/
+[38;5;112m[Appium][0m Available drivers:
+[38;5;112m[Appium][0m   - xcuitest@9.9.5 (automationName 'XCUITest')
+[38;5;112m[Appium][0m No plugins have been installed. Use the "appium plugin" command to install the one(s) you want to use.
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"firstMatch":[{"appium:wdaLaunchTimeout":30000,"platformName":"IOS","appium:automationName":"XCUITest","appium:deviceName":"iPhone 16 Pro Max","appium:platformVersion":"18.5","appium:udid":"53DFCED5-2A12-4504-A376-A04A3CB77EA2","appium:bundleId":"org.reactjs.native.example.wdiodemoapp"}]}}[39m
+[38;5;163m[AppiumDriver@a7eb][0m Calling AppiumDriver.createSession() with args: [null,null,{"firstMatch":[{"appium:wdaLaunchTimeout":30000,"platformName":"IOS","appium:automationName":"XCUITest","appium:deviceName":"iPhone 16 Pro Max","appium:platformVersion":"18.5","appium:udid":"53DFCED5-2A12-4504-A376-A04A3CB77EA2","appium:bundleId":"org.reactjs.native.example.wdiodemoapp"}]}]
+[38;5;163m[AppiumDriver@a7eb][0m Event 'newSessionRequested' logged at 1754218530709 (16:25:30 GMT+0530 (India Standard Time))
+[38;5;112m[Appium][0m Attempting to find matching driver for automationName 'XCUITest' and platformName 'IOS'
+[38;5;112m[Appium][0m The 'xcuitest' driver was installed and matched caps.
+[38;5;112m[Appium][0m Will require it at /Users/rupamd/.appium/node_modules/appium-xcuitest-driver
+[38;5;112m[Appium][0m Requiring driver at /Users/rupamd/.appium/node_modules/appium-xcuitest-driver/build/index.js
+[38;5;163m[AppiumDriver@a7eb][0m Appium v2.19.0 creating new XCUITestDriver (v9.9.5) session
+[38;5;163m[AppiumDriver@a7eb][0m Checking BaseDriver versions for Appium and XCUITestDriver
+[38;5;163m[AppiumDriver@a7eb][0m Appium's BaseDriver version is 9.18.0
+[38;5;163m[AppiumDriver@a7eb][0m XCUITestDriver's BaseDriver version is 9.18.0
+[38;5;140m[XCUITestDriver@0005][0m 
+[38;5;140m[XCUITestDriver@0005][0m Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "IOS",
+    "appium:wdaLaunchTimeout": 30000,
+    "appium:automationName": "XCUITest",
+    "appium:deviceName": "iPhone 16 Pro Max",
+    "appium:platformVersion": "18.5",
+    "appium:udid": "53DFCED5-2A12-4504-A376-A04A3CB77EA2",
+    "appium:bundleId": "org.reactjs.native.example.wdiodemoapp"
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Session created with session id: d7efbf14-2bb7-4942-9d8e-211ebe01b599
+[38;5;103m[d7efbf14][0m[38;5;135m[XCUITest][0m Current user: 'rupamd'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Available real devices: 
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Constructing iOS simulator for Xcode version 16.4 with udid '53DFCED5-2A12-4504-A376-A04A3CB77EA2'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Determining device to run tests on: udid: '53DFCED5-2A12-4504-A376-A04A3CB77EA2', real device: false
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Event 'xcodeDetailsRetrieved' logged at 1754218531459 (16:25:31 GMT+0530 (India Standard Time))
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Event 'appConfigured' logged at 1754218531459 (16:25:31 GMT+0530 (India Standard Time))
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Event 'resetStarted' logged at 1754218531459 (16:25:31 GMT+0530 (India Standard Time))
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Found 6 org.reactjs.native.example.wdiodemoapp app files to scrub
+[38;5;103m[d7efbf14][0m[38;5;176m[simctl][0m Error running 'terminate': An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=3):
+Simulator device failed to terminate org.reactjs.native.example.wdiodemoapp.
+found nothing to terminate
+Underlying error (domain=NSPOSIXErrorDomain, code=3):
+	The request to terminate "org.reactjs.native.example.wdiodemoapp" failed. found nothing to terminate
+	found nothing to terminate
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Event 'resetComplete' logged at 1754218532439 (16:25:32 GMT+0530 (India Standard Time))
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Using WDA path: '/Users/rupamd/.appium/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Using WDA agent: '/Users/rupamd/.appium/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent/WebDriverAgent.xcodeproj'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Starting log capture for iOS Simulator with udid '53DFCED5-2A12-4504-A376-A04A3CB77EA2' via simctl using the following arguments 'log stream --style compact'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Event 'logCaptureStarted' logged at 1754218534682 (16:25:34 GMT+0530 (India Standard Time))
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Setting up simulator
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Setting preferences of 53DFCED5-2A12-4504-A376-A04A3CB77EA2 Simulator to {"ConnectHardwareKeyboard":false}
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Setting common Simulator preferences to {"RotateWindowWhenSignaledByGuest":true,"StartLastDeviceOnLaunch":false,"DetachOnWindowClose":false,"AttachBootedOnStart":true,"ConnectHardwareKeyboard":false,"PasteboardAutomaticSync":false}
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Updated 53DFCED5-2A12-4504-A376-A04A3CB77EA2 Simulator preferences at '/Users/rupamd/Library/Preferences/com.apple.iphonesimulator.plist' with {"RotateWindowWhenSignaledByGuest":true,"StartLastDeviceOnLaunch":false,"DetachOnWindowClose":false,"AttachBootedOnStart":true,"ConnectHardwareKeyboard":false,"PasteboardAutomaticSync":false,"DevicePreferences":{"53DFCED5-2A12-4504-A376-A04A3CB77EA2":{"SimulatorExternalDisplay":2114,"ConnectHardwareKeyboard":false,"SimulatorWindowOrientation":"Portrait","SimulatorWindowGeometry":{"3905FE37-3CEF-431F-AB03-93A2E8851460":{"WindowCenter":"{1455.5, 586}","WindowScale":0.9919354838709677},"660D55AB-5007-4A5C-B99E-439B63887807":{"WindowCenter":"{952, 528}","WindowScale":1}},"SimulatorWindowRotationAngle":0,"ChromeTint":""}}}
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Got Simulator UI client PID: 48067
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Both Simulator with UDID '53DFCED5-2A12-4504-A376-A04A3CB77EA2' and the UI client are currently running
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Event 'simStarted' logged at 1754218535131 (16:25:35 GMT+0530 (India Standard Time))
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Parsed BUILD_DIR configuration value: '/Users/rupamd/.appium/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent/build'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Got derived data root: '/Users/rupamd/.appium/node_modules/appium-xcuitest-driver/node_modules'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m No obsolete cached processes from previous WDA sessions listening on port 8100 have been found
+[38;5;103m[d7efbf14][0m[38;5;23m[DevCon Factory][0m Requesting connection for device 53DFCED5-2A12-4504-A376-A04A3CB77EA2 on local port 8100
+[38;5;103m[d7efbf14][0m[38;5;23m[DevCon Factory][0m Cached connections count: 0
+[38;5;103m[d7efbf14][0m[38;5;23m[DevCon Factory][0m Successfully requested the connection for 53DFCED5-2A12-4504-A376-A04A3CB77EA2:8100
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Starting WebDriverAgent initialization with the synchronization key 'XCUITestDriver'
+[38;5;103m[d7efbf14][0m[38;5;151m[WD Proxy][0m NoSessionProxy options: {"server":"127.0.0.1","port":"8100","base":"","timeout":3000,"scheme":"http","reqBasePath":"","sessionId":null}
+[38;5;103m[d7efbf14][0m[38;5;151m[WD Proxy][0m Matched '/status' to command name 'getStatus'
+[38;5;103m[d7efbf14][0m[38;5;151m[WD Proxy][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;103m[d7efbf14][0m[38;5;151m[WD Proxy][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m WDA is not listening at 'http://127.0.0.1:8100/'. Original error:: An unknown server-side error occurred while processing the command. Original error: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m WDA is currently not running. There is nothing to cache
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Trying to start WebDriverAgent 2 times with 10000ms interval
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m These values can be customized by changing wdaStartupRetries/wdaStartupRetryInterval capabilities
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Event 'wdaStartAttempted' logged at 1754218535572 (16:25:35 GMT+0530 (India Standard Time))
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Launching WebDriverAgent on the device
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m JWProxy options: {"scheme":"http","server":"127.0.0.1","port":8100,"base":"","timeout":240000,"keepAlive":true,"reqBasePath":"","sessionId":null}
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m NoSessionProxy options: {"scheme":"http","server":"127.0.0.1","port":8100,"base":"","timeout":240000,"keepAlive":true,"reqBasePath":"","sessionId":null}
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m There is no need to perform the project cleanup. A fresh install has been detected
+[38;5;103m[d7efbf14][0m[38;5;21m[WebDriverAgent][0m Killing running processes 'xcodebuild.*53DFCED5-2A12-4504-A376-A04A3CB77EA2, 53DFCED5-2A12-4504-A376-A04A3CB77EA2.*XCTRunner, xctest.*53DFCED5-2A12-4504-A376-A04A3CB77EA2' for the device 53DFCED5-2A12-4504-A376-A04A3CB77EA2...
+[38;5;103m[d7efbf14][0m[38;5;21m[WebDriverAgent][0m 'pgrep -if 53DFCED5-2A12-4504-A376-A04A3CB77EA2.*XCTRunner' didn't detect any matching processes. Return code: 1
+[38;5;103m[d7efbf14][0m[38;5;21m[WebDriverAgent][0m 'pgrep -if xctest.*53DFCED5-2A12-4504-A376-A04A3CB77EA2' didn't detect any matching processes. Return code: 1
+[38;5;103m[d7efbf14][0m[38;5;21m[WebDriverAgent][0m 'pgrep -if xcodebuild.*53DFCED5-2A12-4504-A376-A04A3CB77EA2' didn't detect any matching processes. Return code: 1
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Beginning test with command 'xcodebuild build-for-testing test-without-building -project /Users/rupamd/.appium/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent/WebDriverAgent.xcodeproj -scheme WebDriverAgentRunner -derivedDataPath /Users/rupamd/.appium/node_modules/appium-xcuitest-driver/node_modules -destination id=53DFCED5-2A12-4504-A376-A04A3CB77EA2 IPHONEOS_DEPLOYMENT_TARGET=18.5 GCC_TREAT_WARNINGS_AS_ERRORS=0 COMPILER_INDEX_STORE_ENABLE=NO' in directory '/Users/rupamd/.appium/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Output from xcodebuild will only be logged if any errors are present there. To change this, use 'showXcodeLog' desired capability
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Waiting up to 30000ms for WebDriverAgent to start
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Matched '/status' to command name 'getStatus'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Matched '/status' to command name 'getStatus'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Matched '/status' to command name 'getStatus'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Matched '/status' to command name 'getStatus'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Matched '/status' to command name 'getStatus'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Matched '/status' to command name 'getStatus'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Matched '/status' to command name 'getStatus'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Matched '/status' to command name 'getStatus'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Got response with status 200: {"value":{"build":{"upgradedAt":"1752343704832","version":"9.15.0","time":"Jul 12 2025 23:53:55","productBundleIdentifier":"com.facebook.WebDriverAgentRunner"},"os":{"testmanagerdVersion":65535,"name":"iOS","sdkVersion":"18.4","version":"18.5"},"device":"iphone","ios":{"simulatorVersion":"18.5","ip":"192.168.1.33"},"message":"WebDriverAgent is ready to accept commands","state":"success","ready":true},"sessionId":null}
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m WebDriverAgent information:
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m {
+  "build": {
+    "upgradedAt": "1752343704832",
+    "version": "9.15.0",
+    "time": "Jul 12 2025 23:53:55",
+    "productBundleIdentifier": "com.facebook.WebDriverAgentRunner"
+  },
+  "os": {
+    "testmanagerdVersion": 65535,
+    "name": "iOS",
+    "sdkVersion": "18.4",
+    "version": "18.5"
+  },
+  "device": "iphone",
+  "ios": {
+    "simulatorVersion": "18.5",
+    "ip": "192.168.1.33"
+  },
+  "message": "WebDriverAgent is ready to accept commands",
+  "state": "success",
+  "ready": true
+}
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m WebDriverAgent successfully started after 7688ms
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Event 'wdaSessionAttempted' logged at 1754218543316 (16:25:43 GMT+0530 (India Standard Time))
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Sending createSession command to WDA
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Matched '/session' to command name 'createSession'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Proxying [POST /session] to [POST http://127.0.0.1:8100/session] with body: {"capabilities":{"firstMatch":[{"bundleId":"org.reactjs.native.example.wdiodemoapp","arguments":[],"environment":{},"eventloopIdleDelaySec":0,"shouldWaitForQuiescence":true,"shouldUseTestManagerForVisibilityDetection":false,"maxTypingFrequency":60,"shouldUseSingletonTestManager":true,"shouldTerminateApp":true,"forceAppLaunch":true,"useNativeCachingStrategy":true,"forceSimulatorSoftwareKeyboardPresence":true}],"alwaysMatch":{}}}
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Got response with status 200: {"value":{"sessionId":"19A8410F-7258-444F-AFB6-6AEA6920D3E5","capabilities":{"sdkVersion":"18.5","device":"iphone"}},"sessionId":"19A8410F-7258-444F-AFB6-6AEA6920D3E5"}
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Determined the downstream protocol as 'W3C'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m WDA session startup took 1992ms
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Event 'wdaSessionStarted' logged at 1754218545309 (16:25:45 GMT+0530 (India Standard Time))
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Event 'wdaStarted' logged at 1754218545310 (16:25:45 GMT+0530 (India Standard Time))
+[38;5;103m[d7efbf14][0m[38;5;123m[BaseDriver][0m The value of 'elementResponseAttributes' setting did not change. Skipping the update for it
+[38;5;103m[d7efbf14][0m[38;5;123m[BaseDriver][0m The value of 'shouldUseCompactResponses' setting did not change. Skipping the update for it
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Forwarding MJPEG server port 9100 to local port 9100
+[38;5;103m[d7efbf14][0m[38;5;23m[DevCon Factory][0m Requesting connection for device 53DFCED5-2A12-4504-A376-A04A3CB77EA2 on local port 9100, device port 9100
+[38;5;103m[d7efbf14][0m[38;5;23m[DevCon Factory][0m Cached connections count: 1
+[38;5;103m[d7efbf14][0m[38;5;23m[DevCon Factory][0m Successfully requested the connection for 53DFCED5-2A12-4504-A376-A04A3CB77EA2:9100
+[38;5;103m[d7efbf14][0m[38;5;163m[AppiumDriver@a7eb][0m New XCUITestDriver session created successfully, session d7efbf14-2bb7-4942-9d8e-211ebe01b599 added to master session list
+[38;5;103m[d7efbf14][0m[38;5;163m[AppiumDriver@a7eb][0m Event 'newSessionStarted' logged at 1754218545315 (16:25:45 GMT+0530 (India Standard Time))
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Cached the protocol value 'W3C' for the new session d7efbf14-2bb7-4942-9d8e-211ebe01b599
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Responding to client with driver.createSession() result: {"capabilities":{"webStorageEnabled":false,"locationContextEnabled":false,"browserName":"","platform":"MAC","javascriptEnabled":true,"databaseEnabled":false,"takesScreenshot":true,"networkConnectionEnabled":false,"platformName":"IOS","wdaLaunchTimeout":30000,"automationName":"XCUITest","deviceName":"iPhone 16 Pro Max","platformVersion":"18.5","udid":"53DFCED5-2A12-4504-A376-A04A3CB77EA2","bundleId":"org.reactjs.native.example.wdiodemoapp"}}
+[38;5;103m[d7efbf14][0m[38;5;86m[HTTP][0m [37m<-- POST /session [39m[32m200[39m [90m14628 ms - 505[39m [90m[39m
+[38;5;103m[d7efbf14][0m[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session/d7efbf14-2bb7-4942-9d8e-211ebe01b599/element[39m [90m{"value":"//XCUIElementTypeTextField[@name=\"IntegerA\"]","using":"xpath"}[39m
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Calling AppiumDriver.findElement() with args: ["xpath","//XCUIElementTypeTextField[@name=\"IntegerA\"]","d7efbf14-2bb7-4942-9d8e-211ebe01b599"]
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Executing command 'findElement'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Valid locator strategies for this request: xpath, id, name, class name, -ios predicate string, -ios class chain, accessibility id, css selector
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Waiting up to 0 ms for condition
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Matched '/element' to command name 'findElement'
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Proxying [POST /element] to [POST http://127.0.0.1:8100/session/19A8410F-7258-444F-AFB6-6AEA6920D3E5/element] with body: {"using":"xpath","value":"//XCUIElementTypeTextField[@name=\"IntegerA\"]"}
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Got response with status 404: {"value":{"error":"no such element","message":"unable to find an element using 'xpath', value '//XCUIElementTypeTextField[@name=\"IntegerA\"]'","traceback":"(\n\t0   WebDriverAgentLib                   0x000000010e064028 FBNoSuchElementErrorResponseForRequest + 252\n\t1   WebDriverAgentLib                   0x000000010e063e4c +[FBFindElementCommands handleFindElement:] + 344\n\t2   WebDriverAgentLib                   0x000000010e026050 -[FBRoute_TargetAction mountRequest:intoResponse:] + 168\n\t3   WebDriverAgentLib                   0x000000010e00ee74 __37-[FBWebServer registerRouteHandlers:]_block_invoke + 428\n\t4   WebDriverAgentLib                   0x000000010e0482ec -[RoutingHTTPServer handleRoute:withRequest:response:] + 168\n\t5   WebDriverAgentLib                   0x000000010e048de0 __72-[RoutingHTTPServer routeMethod:withPath:parameters:request:connection:]_block_invoke + 64\n\t6   libdispatch.dylib                   0x0000000180197278 _dispatch_client_callout + 12\n\t7   libdispatch.dylib     ...
+[38;5;103m[d7efbf14][0m[38;5;123m[W3C][0m Matched W3C error code 'no such element' to NoSuchElementError
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Encountered internal error running command: NoSuchElementError: An element could not be located on the page using the given search parameters.
+    at XCUITestDriver.doNativeFind (/Users/rupamd/.appium/node_modules/appium-xcuitest-driver/lib/commands/find.js:143:13)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at XCUITestDriver.findNativeElementOrElements (/Users/rupamd/.appium/node_modules/appium-xcuitest-driver/lib/commands/find.js:97:12)
+    at XCUITestDriver.findElOrEls (/Users/rupamd/.appium/node_modules/appium-xcuitest-driver/lib/commands/find.js:24:14)
+    at XCUITestDriver.findElOrElsWithProcessing (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:60:12)
+    at XCUITestDriver.findElement (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/commands/find.ts:75:12)
+[38;5;103m[d7efbf14][0m[38;5;86m[HTTP][0m [37m<-- POST /session/d7efbf14-2bb7-4942-9d8e-211ebe01b599/element [39m[33m404[39m [90m132 ms - 1002[39m [90m[39m
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Shutting down because we waited 60 seconds for a command
+[38;5;103m[d7efbf14][0m[38;5;163m[AppiumDriver@a7eb][0m Ending session, cause was 'New Command Timeout of 60 seconds expired. Try customizing the timeout using the 'newCommandTimeout' desired capability'
+[38;5;103m[d7efbf14][0m[38;5;163m[AppiumDriver@a7eb][0m Removing session 'd7efbf14-2bb7-4942-9d8e-211ebe01b599' from our master session list
+[38;5;103m[d7efbf14][0m[38;5;23m[DevCon Factory][0m Releasing connections for 53DFCED5-2A12-4504-A376-A04A3CB77EA2 device on any port number
+[38;5;103m[d7efbf14][0m[38;5;23m[DevCon Factory][0m Found cached connections to release: ["53DFCED5-2A12-4504-A376-A04A3CB77EA2:8100","53DFCED5-2A12-4504-A376-A04A3CB77EA2:9100"]
+[38;5;103m[d7efbf14][0m[38;5;23m[DevCon Factory][0m Cached connections count: 0
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Not clearing log files. Use `clearSystemFiles` capability to turn on.
+[38;5;103m[d7efbf14][0m[38;5;140m[XCUITestDriver@0005][0m Stopping iOS log capture
+[38;5;112m[Appium][0m Received SIGTERM - shutting down
+[38;5;163m[AppiumDriver@a7eb][0m There are no active sessions for cleanup
+[38;5;86m[HTTP][0m Closing Appium HTTP server
+[38;5;86m[HTTP][0m Appium HTTP server has been successfully closed after 2ms

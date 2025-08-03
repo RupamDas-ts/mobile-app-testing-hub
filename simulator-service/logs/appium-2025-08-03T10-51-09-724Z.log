@@ -1,0 +1,31 @@
+[2025-08-03T10:51:09.728Z] Appium process started with PID: 53272
+[38;5;112m[Appium][0m Welcome to Appium v2.19.0
+[38;5;112m[Appium][0m The autodetected Appium home path: /Users/rupamd/.appium
+[38;5;112m[Appium][0m Attempting to load driver xcuitest...
+[38;5;112m[Appium][0m Requiring driver at /Users/rupamd/.appium/node_modules/appium-xcuitest-driver/build/index.js
+[38;5;112m[Appium][0m XCUITestDriver has been successfully loaded in 0.562s
+[38;5;112m[Appium][0m Appium REST http interface listener started on http://0.0.0.0:4723
+[38;5;112m[Appium][0m You can provide the following URLs in your client code to connect to this server:
+	http://127.0.0.1:4723/ (only accessible from the same host)
+	http://192.168.1.33:4723/
+[38;5;112m[Appium][0m Available drivers:
+[38;5;112m[Appium][0m   - xcuitest@9.9.5 (automationName 'XCUITest')
+[38;5;112m[Appium][0m No plugins have been installed. Use the "appium plugin" command to install the one(s) you want to use.
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"capabilities":{"firstMatch":[{"appium:wdaLaunchTimeout":30000,"platformName":"IOS","appium:automationName":"XCUITest","appium:deviceName":"iPhone 16 Pro Max","appium:platformVersion":"18.5","appium:udid":"53DFCED5-2A12-4504-A376-A04A3CB77EA2","appium:bundleId":"org.reactjs.native.example.wdiodemoapp"}]}}}[39m
+[38;5;223m[AppiumDriver@6100][0m Calling AppiumDriver.createSession() with args: [null,null,{"capabilities":{"firstMatch":[{"appium:wdaLaunchTimeout":30000,"platformName":"IOS","appium:automationName":"XCUITest","appium:deviceName":"iPhone 16 Pro Max","appium:platformVersion":"18.5","appium:udid":"53DFCED5-2A12-4504-A376-A04A3CB77EA2","appium:bundleId":"org.reactjs.native.example.wdiodemoapp"}]}}]
+[38;5;223m[AppiumDriver@6100][0m Event 'newSessionRequested' logged at 1754218288631 (16:21:28 GMT+0530 (India Standard Time))
+[38;5;223m[AppiumDriver@6100][0m Encountered internal error running command: SessionNotCreatedError: A new session could not be created. Details: Session capabilities format must comply to the W3C standard. Make sure your client is up to date. See https://www.w3.org/TR/webdriver/#new-session for more details.
+    at makeNonW3cCapsError (/usr/local/lib/node_modules/appium/lib/utils.js:36:10)
+    at AppiumDriver.createSession (/usr/local/lib/node_modules/appium/lib/appium.js:281:32)
+    at runCommandPromise (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/driver.ts:116:20)
+    at AppiumDriver.executeCommand (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/basedriver/driver.ts:161:15)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at defaultBehavior (/usr/local/lib/node_modules/appium/lib/appium.js:752:16)
+    at AppiumDriver.executeWrappedCommand (/usr/local/lib/node_modules/appium/lib/appium.js:869:16)
+    at AppiumDriver.executeCommand (/usr/local/lib/node_modules/appium/lib/appium.js:768:17)
+    at asyncHandler (/usr/local/lib/node_modules/appium/node_modules/@appium/base-driver/lib/protocol/protocol.js:389:19)
+[38;5;86m[HTTP][0m [37m<-- POST /session [39m[31m500[39m [90m75 ms - 1431[39m [90m[39m
+[38;5;112m[Appium][0m Received SIGTERM - shutting down
+[38;5;223m[AppiumDriver@6100][0m There are no active sessions for cleanup
+[38;5;86m[HTTP][0m Closing Appium HTTP server
+[38;5;86m[HTTP][0m Appium HTTP server has been successfully closed after 1ms

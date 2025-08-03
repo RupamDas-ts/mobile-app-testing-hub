@@ -1,0 +1,68 @@
+
+System Architecture:
+
+1. App Management Service (AppService)
+---------------------------------------
+- Handles app uploads and stores them under a unique app ID.
+- Exposes an endpoint to accept app uploads and store them.
+- Provides an optional endpoint to retrieve app details.
+
+Endpoints:
+  - POST /upload: Receives an app (file upload) and returns the app ID.
+  - GET /apps/{appId}: Retrieve app details (app name, version, etc.).
+
+2. Simulator Management Service (SimulatorService)
+---------------------------------------------------
+- Manages iOS simulators and app installation on simulators.
+- Accepts a request to create and configure simulators, installs apps, and manages Appium server instances.
+
+Endpoints:
+  - POST /simulate: Boot a simulator and install the app. Receives device name, platform version, and app ID.
+  - POST /simulators/start: Starts a simulator with a required configuration (device name, platform version).
+  - POST /appium/start: Starts an Appium server and initializes the automation session.
+
+3. Appium Proxy Service (ProxyService)
+--------------------------------------
+- Acts as a proxy between the Appium client and the Appium server.
+- Intercepts session creation requests and WebDriver commands from the client, modifies them, and forwards them to Appium.
+
+Endpoints:
+  - POST /wd/hub: Main entry point for session creation requests. Accepts capabilities, including app ID and other configurations.
+  - /wd/hub/session/:sessionId/...
+    - Intercepts and forwards WebDriver commands to the Appium server.
+
+Workflow:
+1. App Upload:
+   - User uploads a mobile app to AppService using POST /upload.
+   - AppService stores the app and returns an app ID.
+
+2. Simulator Management and App Installation:
+   - User sends a request to SimulatorService via POST /simulate with device name, platform version, and app ID.
+   - SimulatorService boots the correct iOS simulator, installs the app, and starts Appium server.
+
+3. Appium Automation:
+   - User sends WebDriver commands to ProxyService via POST /wd/hub/session with the app ID, device configuration, etc.
+   - ProxyService forwards these commands to the appropriate Appium server for test execution.
+
+Tech Stack:
+- Node.js (JavaScript) for backend API services.
+- Appium for mobile automation on simulators.
+- Xcode/iOS Simulators for device management.
+- Docker for containerization.
+- Kubernetes for service orchestration.
+- Redis/MongoDB (optional) for tracking sessions and app metadata.
+
+Expected Endpoints and Functions:
+
+1. AppService:
+   - POST /upload: Upload an app and return app ID.
+   - GET /apps/{appId}: Retrieve app details (optional).
+
+2. SimulatorService:
+   - POST /simulate: Boot simulator and install app.
+   - POST /simulators/start: Start simulator.
+   - POST /appium/start: Start Appium server.
+
+3. ProxyService:
+   - POST /wd/hub: Handle session creation and WebDriver commands.
+

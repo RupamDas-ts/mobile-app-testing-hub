@@ -1,0 +1,19 @@
+{
+  "name": "simulator-service",
+  "version": "1.0.0",
+  "description": "Simulator Management Service",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "axios": "1.11.0",
+    "express": "^4.17.1",
+    "multer": "^1.4.2",
+    "child_process": "latest",
+    "body-parser": "^2.2.0"
+  },
+  "devDependencies": {},
+  "license": "MIT"
+}

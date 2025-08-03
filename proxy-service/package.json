@@ -1,0 +1,21 @@
+{
+    "name": "proxy-service",
+    "version": "1.0.0",
+    "description": "Appium Proxy Service for Mobile App Testing",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "nodemon server.js"
+    },
+    "dependencies": {
+        "axios": "^1.11.0",
+        "body-parser": "^2.2.0",
+        "express": "^4.17.1",
+        "http-proxy-middleware": "^2.0.6",
+        "uuid": "^9.0.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.10"
+    },
+    "license": "MIT"
+}

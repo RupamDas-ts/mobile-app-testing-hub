@@ -1,0 +1,48 @@
+mobile-app-testing/
+│
+├── app-service/                # App Management Service
+│   ├── Dockerfile              # Dockerfile for AppService
+│   ├── package.json            # Node.js dependencies
+│   ├── server.js               # Main server file
+│   ├── controllers/            # AppService API logic
+│   │   └── appController.js    # Controller for handling app upload
+│   ├── models/                 # AppService data models (e.g., App)
+│   │   └── appModel.js         # App model for storing app details
+│   ├── routes/                 # Routes for API endpoints
+│   │   └── appRoutes.js        # Routes for app-related APIs
+│   └── services/               # Service layers for business logic
+│       └── appService.js       # Logic for handling app uploads and management
+│
+├── simulator-service/          # Simulator Management Service
+│   ├── Dockerfile              # Dockerfile for SimulatorService
+│   ├── package.json            # Node.js dependencies
+│   ├── server.js               # Main server file
+│   ├── controllers/            # SimulatorService API logic
+│   │   └── simulatorController.js  # Controller for simulator-related tasks
+│   └── routes/                 # Routes for API endpoints
+│       └── simulatorRoutes.js  # Routes for simulator-related APIs
+│
+├── proxy-service/              # Appium Proxy Service
+│   ├── Dockerfile              # Dockerfile for ProxyService
+│   ├── package.json            # Node.js dependencies
+│   ├── server.js               # Main server file
+│   ├── controllers/            # ProxyService API logic
+│   │   └── proxyController.js  # Controller for handling Appium requests
+│   ├── routes/                 # Routes for API endpoints
+│   │   └── proxyRoutes.js      # Routes for Appium WebDriver commands
+│   └── services/               # Service layers for business logic
+│       └── proxyService.js     # Logic for forwarding Appium commands to Appium server
+│
+├── docker-compose.yml          # Docker Compose configuration for multi-container services
+├── kubernetes/                 # Kubernetes deployment configurations
+│   ├── app-service-deployment.yaml    # Deployment for AppService
+│   ├── simulator-service-deployment.yaml  # Deployment for SimulatorService
+│   ├── proxy-service-deployment.yaml    # Deployment for ProxyService
+│   ├── app-service-service.yaml        # Service configuration for AppService
+│   ├── simulator-service-service.yaml  # Service configuration for SimulatorService
+│   ├── proxy-service-service.yaml    # Service configuration for ProxyService
+│   └── ingress.yaml             # Ingress configuration (optional for routing)
+│
+├── .env                         # Environment variables
+├── README.md                    # Project documentation
+└── logs/                        # Logs directory for the services
