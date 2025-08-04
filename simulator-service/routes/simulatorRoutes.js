@@ -2,6 +2,15 @@ const express = require('express');
 const router = express.Router();
 const simulatorController = require('../controllers/simulatorController');
 
+// Health check endpoint
+router.get('/health', (req, res) => {
+    res.status(200).json({
+        status: 'healthy',
+        service: 'simulator-service',
+        timestamp: new Date().toISOString()
+    });
+});
+
 // Route to start the simulator and install the app
 router.post('/simulate', simulatorController.setupSimulatorAndApp);
 

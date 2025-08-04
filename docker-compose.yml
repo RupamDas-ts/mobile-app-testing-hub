@@ -1,18 +1,54 @@
 version: '3.8'
 
 services:
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    hostname: redis # Explicit hostname
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    networks:
+      app-network:
+        aliases:
+          - redis
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    volumes:
+      - redis_data:/data
+    command: redis-server --bind 0.0.0.0 --protected-mode no
+    environment:
+      - REDIS_PASSWORD= # Set empty if no password (better than null)
+
   app-service:
     build: ./app-service
     container_name: app-service
     ports:
       - "3000:3000"
     environment:
+      - NODE_DEBUG=net,redis
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - NODE_ENV=production
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
     networks:
       - app-network
+    healthcheck:
+      test: [ "CMD", "node", "-e", "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Add these commands to check networking
+    command: >
+      sh -c " echo 'Testing DNS resolution...'; nslookup redis; echo 'Testing port connectivity...'; nc -zv redis 6379; echo 'Starting application...'; node server.js "
 
   simulator-service:
     build: ./simulator-service
@@ -20,12 +56,22 @@ services:
     ports:
       - "3001:3001"
     environment:
-      - DEVICE_NAME="iPhone 12"
-      - PLATFORM_VERSION="14.4"
+      - NODE_ENV=production
+      - APP_SERVICE_URL=http://app-service:3000
+      - DOCKER_CONTAINER=true
+      - HOST_BRIDGE_URL=http://host.docker.internal:3003
     depends_on:
-      - app-service
+      app-service:
+        condition: service_healthy
+    restart: unless-stopped
     networks:
       - app-network
+    healthcheck:
+      test: [ "CMD", "node", "-e", "require('http').get('http://localhost:3001/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   proxy-service:
     build: ./proxy-service
@@ -34,19 +80,23 @@ services:
       - "3002:3002"
     environment:
       - SIMULATOR_SERVICE_URL=http://simulator-service:3001
+      - NODE_ENV=production
     depends_on:
-      - simulator-service
+      simulator-service:
+        condition: service_healthy
+    restart: unless-stopped
     networks:
       - app-network
-
-  redis:
-    image: redis:latest
-    container_name: redis
-    ports:
-      - "6379:6379"
-    networks:
-      - app-network
+    healthcheck:
+      test: [ "CMD", "node", "-e", "require('http').get('http://localhost:3002/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  redis_data:

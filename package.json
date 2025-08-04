@@ -1,0 +1,25 @@
+{
+    "name": "mobile-testing-hub-host-bridge",
+    "version": "1.0.0",
+    "description": "Host bridge for mobile testing hub to execute commands on macOS host",
+    "main": "host-bridge.js",
+    "scripts": {
+        "start": "node host-bridge.js",
+        "dev": "nodemon host-bridge.js"
+    },
+    "dependencies": {
+        "express": "^4.18.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.1"
+    },
+    "keywords": [
+        "mobile",
+        "testing",
+        "ios",
+        "simulator",
+        "bridge"
+    ],
+    "author": "",
+    "license": "MIT"
+}

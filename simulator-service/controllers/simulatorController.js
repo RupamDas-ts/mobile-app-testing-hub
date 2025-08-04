@@ -9,10 +9,16 @@ const { spawn } = require('child_process');
 // Promisify exec for better async/await usage
 const execAsync = util.promisify(exec);
 
+// Check if we're running in Docker container
+const isRunningInContainer = () => {
+    return fs.existsSync('/.dockerenv') || process.env.DOCKER_CONTAINER === 'true';
+};
+
 // Function to fetch app from AppService API using appId
 const getAppFromAppService = async (appId) => {
     try {
-        const response = await axios.get(`http://localhost:3000/api/apps/${appId}`);
+        const appServiceUrl = process.env.APP_SERVICE_URL || 'http://localhost:3000';
+        const response = await axios.get(`${appServiceUrl}/api/apps/${appId}`);
         console.log("Fetched app from AppService: ", response.data);
         return response.data.app;
     } catch (error) {
@@ -21,12 +27,43 @@ const getAppFromAppService = async (appId) => {
     }
 };
 
+// Function to execute commands on host macOS system
+const executeOnHost = async (command) => {
+    if (isRunningInContainer()) {
+        // In Docker container, delegate to host via API
+        const hostBridgeUrl = process.env.HOST_BRIDGE_URL || 'http://host.docker.internal:3003';
+        console.log(`Executing on host via bridge: ${command}`);
+
+        try {
+            const response = await axios.post(`${hostBridgeUrl}/execute`, { command });
+
+            if (response.data.success) {
+                if (response.data.stderr) {
+                    console.warn(`Host command stderr: ${response.data.stderr}`);
+                }
+                return response.data.stdout;
+            } else {
+                throw new Error(response.data.error || 'Host command failed');
+            }
+        } catch (error) {
+            console.error(`Host bridge command failed: ${error.message}`);
+            throw new Error(`Host bridge command failed: ${error.message}`);
+        }
+    } else {
+        // Running directly on macOS
+        const { stdout, stderr } = await execAsync(command);
+        if (stderr) {
+            console.warn(`Command stderr: ${stderr}`);
+        }
+        return stdout;
+    }
+};
+
 // Function to get simulator UDID by device name
 const getSimulatorUDID = async (deviceName) => {
     try {
-        const { stdout } = await execAsync(
-            `xcrun simctl list devices -j | jq -r '.devices | to_entries[] | .value[] | select(.name == "${deviceName}") | .udid' | head -1`
-        );
+        const command = `xcrun simctl list devices -j | jq -r '.devices | to_entries[] | .value[] | select(.name == "${deviceName}") | .udid' | head -1`;
+        const stdout = await executeOnHost(command);
 
         const udid = stdout.trim();
         if (!udid) {
@@ -43,7 +80,8 @@ const getSimulatorUDID = async (deviceName) => {
 const isSimulatorBooted = async (deviceName) => {
     try {
         const udid = await getSimulatorUDID(deviceName);
-        const { stdout } = await execAsync(`xcrun simctl list devices | grep "${udid}"`);
+        const command = `xcrun simctl list devices | grep "${udid}"`;
+        const stdout = await executeOnHost(command);
         return stdout.includes('(Booted)');
     } catch (error) {
         if (error.message.includes('No UDID found') || error.message.includes('command failed')) {
@@ -58,7 +96,7 @@ const openSimulatorWindow = async (deviceName) => {
     try {
         const udid = await getSimulatorUDID(deviceName);
         // Open Simulator app and focus on the specific device
-        await execAsync(`open -a Simulator`);
+        await executeOnHost(`open -a Simulator`);
 
         // Give Simulator app a moment to start
         await new Promise(resolve => setTimeout(resolve, 2000));
@@ -66,7 +104,7 @@ const openSimulatorWindow = async (deviceName) => {
         // Boot the specific device if not already booted
         const isBooted = await isSimulatorBooted(deviceName);
         if (!isBooted) {
-            await execAsync(`xcrun simctl boot ${udid}`);
+            await executeOnHost(`xcrun simctl boot ${udid}`);
         }
 
         console.log(`Simulator window opened for ${deviceName} (${udid})`);
@@ -88,7 +126,7 @@ const startSimulator = async (deviceName) => {
         }
 
         const udid = await getSimulatorUDID(deviceName);
-        await execAsync(`xcrun simctl boot ${udid}`);
+        await executeOnHost(`xcrun simctl boot ${udid}`);
         console.log(`Simulator ${deviceName} (${udid}) booted successfully`);
 
         // Open the Simulator window
@@ -160,7 +198,7 @@ const installAppOnSimulator = async (appPath, deviceName) => {
         // Install the app using the extracted .app path
         const udid = await getSimulatorUDID(deviceName);
         console.log(`Installing app on simulator ${deviceName} with UDID ${udid} with command: xcrun simctl install ${udid} "${appPath}"`);
-        const { stdout } = await execAsync(`xcrun simctl install ${udid} "${appPath}"`);
+        const stdout = await executeOnHost(`xcrun simctl install ${udid} "${appPath}"`);
 
         console.log(`App installed successfully on ${deviceName}: ${stdout}`);
         return stdout;
@@ -173,29 +211,29 @@ const installAppOnSimulator = async (appPath, deviceName) => {
 // Function to get the app's bundleId
 const getAppBundleId = async (appPath) => {
     try {
-        const { stdout } = await execAsync(
+        const stdout = await executeOnHost(
             `/usr/libexec/PlistBuddy -c "Print CFBundleIdentifier" "${appPath}/Info.plist"`
         );
         const bundleId = stdout.trim();
         console.log(`Bundle ID fetched: ${bundleId}`);
         return bundleId;
     } catch (error) {
-        console.error(`Error getting bundleId for app at path ${appPath}: ${error.stderr}`);
-        throw new Error(`Error getting bundleId: ${error.stderr}`);
+        console.error(`Error getting bundleId for app at path ${appPath}: ${error.message}`);
+        throw new Error(`Error getting bundleId: ${error.message}`);
     }
 };
 
 // Function to check if any simulators are running
 const areSimulatorsRunning = async () => {
     try {
-        const { stdout } = await execAsync('xcrun simctl list devices | grep -E "(Booted)"');
+        const stdout = await executeOnHost('xcrun simctl list devices | grep -E "(Booted)"');
         return stdout.trim().length > 0;
     } catch (error) {
         // grep returns error when no matches found, which we treat as no simulators running
         if (error.code === 1) {
             return false;
         }
-        console.error(`Error checking simulators: ${error.stderr}`);
+        console.error(`Error checking simulators: ${error.message}`);
         throw new Error('Error checking simulators.');
     }
 };
@@ -203,7 +241,7 @@ const areSimulatorsRunning = async () => {
 // Function to check if Xcode is running
 const isXcodeRunning = async () => {
     try {
-        await execAsync('pgrep -x Xcode');
+        await executeOnHost('pgrep -x Xcode');
         return true;
     } catch (error) {
         return false;
@@ -214,7 +252,7 @@ const isXcodeRunning = async () => {
 const isAppiumRunning = async () => {
     try {
         // Check if port 4723 is in use
-        const { stdout } = await execAsync('lsof -i :4723');
+        const stdout = await executeOnHost('lsof -i :4723');
         const portInUse = stdout.trim().length > 0;
 
         if (!portInUse) {
@@ -226,7 +264,7 @@ const isAppiumRunning = async () => {
         console.log('Port 4723 is in use, checking if it\'s Appium...');
 
         // Get the PID of the process using port 4723
-        const { stdout: pidOutput } = await execAsync('lsof -ti :4723');
+        const pidOutput = await executeOnHost('lsof -ti :4723');
         const pid = pidOutput.trim();
 
         if (!pid) {
@@ -235,7 +273,7 @@ const isAppiumRunning = async () => {
         }
 
         // Check if the process with this PID is actually Appium
-        const { stdout: processInfo } = await execAsync(`ps -p ${pid} -o command=`);
+        const processInfo = await executeOnHost(`ps -p ${pid} -o command=`);
         const isAppiumProcess = processInfo.includes('appium');
 
         console.log(`Appium check - Process on port 4723: ${processInfo.trim()}`);
@@ -316,29 +354,29 @@ const startAppium = async () => {
 // Function to shutdown all simulators
 const shutdownAllSimulators = async () => {
     try {
-        const { stdout } = await execAsync('xcrun simctl shutdown all');
+        const stdout = await executeOnHost('xcrun simctl shutdown all');
         console.log(`Simulators shut down successfully: ${stdout}`);
         return stdout;
     } catch (error) {
         // Sometimes shutdown returns error even when successful
-        if (error.stderr.includes("No devices are booted")) {
+        if (error.message.includes("No devices are booted")) {
             console.log('No booted devices to shutdown');
             return "No booted devices to shutdown";
         }
-        console.error(`Error shutting down simulators: ${error.stderr}`);
-        throw new Error(`Error shutting down simulators: ${error.stderr}`);
+        console.error(`Error shutting down simulators: ${error.message}`);
+        throw new Error(`Error shutting down simulators: ${error.message}`);
     }
 };
 
 // Function to stop Xcode (if running)
 const stopXcode = async () => {
     try {
-        const { stdout } = await execAsync('pkill Xcode');
+        const stdout = await executeOnHost('pkill Xcode');
         console.log(`Xcode stopped successfully: ${stdout}`);
         return stdout;
     } catch (error) {
-        console.error(`Error stopping Xcode: ${error.stderr}`);
-        throw new Error(`Error stopping Xcode: ${error.stderr}`);
+        console.error(`Error stopping Xcode: ${error.message}`);
+        throw new Error(`Error stopping Xcode: ${error.message}`);
     }
 };
 
@@ -346,7 +384,7 @@ const stopXcode = async () => {
 const stopAppium = async () => {
     try {
         // Use pkill with pattern matching instead of exact name
-        const { stdout } = await execAsync('pkill -f appium');
+        const stdout = await executeOnHost('pkill -f appium');
         console.log(`Appium stopped successfully: ${stdout}`);
         return stdout;
     } catch (error) {
@@ -390,7 +428,7 @@ exports.setupSimulatorAndApp = async (req, res) => {
 
         // Step 8: Launch the app on the simulator
         console.log(`Launching app ${bundleId} on simulator ${deviceName}...`);
-        await execAsync(`xcrun simctl launch ${udid} ${bundleId}`);
+        await executeOnHost(`xcrun simctl launch ${udid} ${bundleId}`);
         console.log(`App launched successfully on ${deviceName}`);
 
         console.log(`Simulator setup successful for device: ${deviceName}, UDID: ${udid}, Bundle ID: ${bundleId}`);
