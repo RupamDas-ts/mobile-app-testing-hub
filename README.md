@@ -82,11 +82,8 @@ docker compose up -d
 #### 2. Start Local Simulator Service
 
 ```bash
-# Make the script executable (first time only)
-chmod +x start-simulator-service.sh
-
-# Start the simulator service
-./start-simulator-service.sh
+# Start the simulator service using the management script
+./mobile-testing-hub.sh --start --service simulator-service
 ```
 
 #### 3. Verify Services

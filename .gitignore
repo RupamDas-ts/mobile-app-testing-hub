@@ -150,5 +150,4 @@ out/
 config/local.js
 config/local.json
 
-# Local service startup scripts
-start-simulator-service.sh 
+# Local service startup scripts (replaced by mobile-testing-hub.sh) 
