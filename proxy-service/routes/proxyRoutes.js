@@ -3,7 +3,7 @@ const router = express.Router();
 const proxyController = require('../controllers/proxyController');
 
 // Health check endpoint
-router.get('/health', proxyController.healthCheck);
+router.get('/api/health', proxyController.healthCheck);
 
 // Debug endpoints
 router.get('/sessions', proxyController.getAllSessions);
