@@ -8,6 +8,7 @@ const sessionMap = new Map();
 class ProxyService {
     constructor() {
         this.simulatorServiceUrl = process.env.SIMULATOR_SERVICE_URL || 'http://localhost:3001';
+        this.appiumServerUrl = process.env.APPIUM_SERVER_URL || 'http://localhost:4723';
     }
 
     // Create a new session by forwarding to SimulatorService
@@ -81,8 +82,8 @@ class ProxyService {
 
             const { udid, bundleId } = simulatorResponse.data;
 
-            // Construct Appium server URL (assuming Appium runs on default port 4723)
-            const appiumServerUrl = `http://localhost:4723`;
+            // Use the configured Appium server URL
+            const appiumServerUrl = this.appiumServerUrl;
 
             // Final capabilities - maintain W3C structure
             const finalCapabilities = {

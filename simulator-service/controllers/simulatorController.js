@@ -286,32 +286,9 @@ const startAppium = async () => {
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
         const logFile = path.join(logsDir, `appium-${timestamp}.log`);
 
-        // Start Appium with log redirection (using default root path)
-        const appiumProcess = spawn('appium', [], {
-            detached: true,
-            stdio: ['ignore', 'pipe', 'pipe']
-        });
-
-        // Create write streams for stdout and stderr
-        const stdoutStream = fs.createWriteStream(logFile, { flags: 'a' });
-        const stderrStream = fs.createWriteStream(logFile, { flags: 'a' });
-
-        // Pipe Appium output to log file
-        appiumProcess.stdout.pipe(stdoutStream);
-        appiumProcess.stderr.pipe(stderrStream);
-
-        // Add timestamp to log entries
-        const logWithTimestamp = (data) => {
-            const timestamp = new Date().toISOString();
-            const logEntry = `[${timestamp}] ${data}`;
-            fs.appendFileSync(logFile, logEntry);
-        };
-
-        // Log process start
-        logWithTimestamp(`Appium process started with PID: ${appiumProcess.pid}\n`);
-
-        // Unref the child process so it doesn't keep the parent alive
-        appiumProcess.unref();
+        // Start Appium using executeOnHost to ensure it runs on macOS
+        const appiumCommand = `appium --log ${logFile} --log-level info --local-timezone`;
+        await executeOnHost(appiumCommand);
 
         // Give Appium a moment to start up
         await new Promise(resolve => setTimeout(resolve, 3000));

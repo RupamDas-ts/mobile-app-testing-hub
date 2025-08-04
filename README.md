@@ -18,15 +18,22 @@ This system uses a hybrid approach:
 2. **Simulator Service** (Local macOS - Port 3001)
    - Manages iOS simulators via Xcode
    - Installs and launches apps on simulators
-   - Runs Appium for test automation
+   - Starts and manages Appium server locally
    - **Must run locally on macOS** for Xcode simulator access
 
-3. **Proxy Service** (Docker - Port 3002)
+3. **Appium Server** (Local macOS - Port 4723)
+   - Runs directly on macOS host (started by simulator service)
+   - Handles WebDriver commands for iOS automation
+   - Communicates with iOS simulators via XCUITest
+   - **Must run locally on macOS** for iOS simulator access
+
+4. **Proxy Service** (Docker - Port 3002)
    - Orchestrates communication between services
    - Manages test sessions
+   - Forwards WebDriver commands to local Appium server
    - Provides unified API interface
 
-4. **Redis** (Docker - Port 6379)
+5. **Redis** (Docker - Port 6379)
    - Stores app metadata and session information
    - Provides caching and data persistence
 

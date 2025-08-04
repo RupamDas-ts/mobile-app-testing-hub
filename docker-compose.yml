@@ -20,7 +20,7 @@ services:
       - redis_data:/data
     command: redis-server --bind 0.0.0.0 --protected-mode no
     environment:
-      - REDIS_PASSWORD= # Set empty if no password (better than null)
+      - REDIS_PASSWORD= # Set empty if no password
 
   app-service:
     build: ./app-service
@@ -48,9 +48,6 @@ services:
     command: >
       sh -c " echo 'Testing DNS resolution...'; nslookup redis; echo 'Testing port connectivity...'; nc -zv redis 6379; echo 'Starting application...'; node server.js "
 
-  # Simulator service will run locally on macOS host
-  # (not in Docker due to Xcode simulator requirements)
-
   proxy-service:
     build: ./proxy-service
     container_name: proxy-service
@@ -58,6 +55,7 @@ services:
       - "3002:3002"
     environment:
       - SIMULATOR_SERVICE_URL=http://host.docker.internal:3001
+      - APPIUM_SERVER_URL=http://host.docker.internal:4723
       - NODE_ENV=production
     depends_on:
       app-service:
