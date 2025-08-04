@@ -9,11 +9,6 @@ const { spawn } = require('child_process');
 // Promisify exec for better async/await usage
 const execAsync = util.promisify(exec);
 
-// Check if we're running in Docker container
-const isRunningInContainer = () => {
-    return fs.existsSync('/.dockerenv') || process.env.DOCKER_CONTAINER === 'true';
-};
-
 // Function to fetch app from AppService API using appId
 const getAppFromAppService = async (appId) => {
     try {
@@ -27,36 +22,14 @@ const getAppFromAppService = async (appId) => {
     }
 };
 
-// Function to execute commands on host macOS system
+// Function to execute commands on macOS host system
 const executeOnHost = async (command) => {
-    if (isRunningInContainer()) {
-        // In Docker container, delegate to host via API
-        const hostBridgeUrl = process.env.HOST_BRIDGE_URL || 'http://host.docker.internal:3003';
-        console.log(`Executing on host via bridge: ${command}`);
-
-        try {
-            const response = await axios.post(`${hostBridgeUrl}/execute`, { command });
-
-            if (response.data.success) {
-                if (response.data.stderr) {
-                    console.warn(`Host command stderr: ${response.data.stderr}`);
-                }
-                return response.data.stdout;
-            } else {
-                throw new Error(response.data.error || 'Host command failed');
-            }
-        } catch (error) {
-            console.error(`Host bridge command failed: ${error.message}`);
-            throw new Error(`Host bridge command failed: ${error.message}`);
-        }
-    } else {
-        // Running directly on macOS
-        const { stdout, stderr } = await execAsync(command);
-        if (stderr) {
-            console.warn(`Command stderr: ${stderr}`);
-        }
-        return stdout;
+    console.log(`Executing command on macOS: ${command}`);
+    const { stdout, stderr } = await execAsync(command);
+    if (stderr) {
+        console.warn(`Command stderr: ${stderr}`);
     }
+    return stdout;
 };
 
 // Function to get simulator UDID by device name

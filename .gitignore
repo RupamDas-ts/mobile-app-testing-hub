@@ -152,4 +152,7 @@ config/local.json
 
 # Host bridge specific
 host-bridge.js
-start-host-bridge.sh 
+start-host-bridge.sh
+
+# Local service startup scripts
+start-simulator-service.sh 

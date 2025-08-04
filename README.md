@@ -1,244 +1,198 @@
 # Mobile Testing Hub
 
-A **Docker-based distributed system** for automated iOS mobile application testing using Appium, Xcode, and iOS Simulators. This project provides a centralized hub architecture similar to Selenium/Appium Grid, enabling seamless mobile app testing automation.
+A comprehensive mobile app testing system that combines Docker containers with local macOS services for iOS simulator integration.
 
-## 🏗️ Architecture
+## Architecture
 
-The system consists of **three microservices** working together:
+This system uses a hybrid approach:
+- **Docker containers**: `app-service`, `proxy-service`, `redis`
+- **Local macOS**: `simulator-service` (runs directly on host for Xcode integration)
 
-- **📱 App Management Service** - Handles app uploads and metadata storage
-- **🖥️ Simulator Management Service** - Manages iOS simulators and Appium server instances  
-- **🔗 Appium Proxy Service** - Central hub endpoint that routes WebDriver commands
+### Services
 
-## ✨ Key Features
+1. **App Service** (Docker - Port 3000)
+   - Manages app uploads and metadata
+   - Stores app information in Redis
+   - RESTful API for app management
 
-- **Hub-like Architecture**: Single entry point (`/wd/hub`) for all test automation requests
-- **Dynamic Simulator Management**: Automatic iOS simulator booting and app installation
-- **Session Routing**: Intelligent routing of WebDriver commands to appropriate Appium instances
-- **Docker Containerization**: Easy deployment and scaling with Docker Compose
-- **Redis Integration**: Efficient app metadata and session management
-- **Health Checks**: Built-in health monitoring for all services
+2. **Simulator Service** (Local macOS - Port 3001)
+   - Manages iOS simulators via Xcode
+   - Installs and launches apps on simulators
+   - Runs Appium for test automation
+   - **Must run locally on macOS** for Xcode simulator access
 
-## 🛠️ Tech Stack
+3. **Proxy Service** (Docker - Port 3002)
+   - Orchestrates communication between services
+   - Manages test sessions
+   - Provides unified API interface
 
-- **Backend**: Node.js 18, Express.js
-- **Mobile Testing**: Appium, Xcode, iOS Simulators
-- **Containerization**: Docker, Docker Compose
-- **Database**: Redis 7
-- **File Handling**: Multer for app uploads
+4. **Redis** (Docker - Port 6379)
+   - Stores app metadata and session information
+   - Provides caching and data persistence
 
-## 🚀 Quick Start
+## Prerequisites
 
-### Prerequisites
+### For Docker Services
+- Docker and Docker Compose
+- Node.js 18+ (for local development)
 
-- Docker and Docker Compose installed
-- At least 4GB RAM available for containers
-- Ports 3000, 3001, 3002, and 6379 available
+### For Local Simulator Service
+- macOS (required for Xcode simulators)
+- Xcode with iOS Simulator
+- Node.js 18+
+- Appium (will be installed automatically)
 
-### 1. Clone the Repository
+## Quick Start
+
+### 1. Start Docker Services
 
 ```bash
-git clone <repository-url>
-cd mobile-testing-hub
+# Start app-service, proxy-service, and redis
+docker compose up -d
 ```
 
-### 2. Build and Start Services
+### 2. Start Local Simulator Service
 
 ```bash
-# Build and start all services
-docker compose up --build
+# Make the script executable (first time only)
+chmod +x start-simulator-service.sh
 
-# Or run in detached mode
-docker compose up --build -d
+# Start the simulator service
+./start-simulator-service.sh
 ```
 
 ### 3. Verify Services
 
 ```bash
-# Check service status
+# Check Docker services
 docker compose ps
 
-# View logs
-docker compose logs -f
+# Check local simulator service
+curl http://localhost:3001/api/health
 ```
 
-## 📋 API Endpoints
+## API Endpoints
 
 ### App Service (Port 3000)
-- **Upload App**: `POST /api/upload` - Upload mobile apps
-- **Get App**: `GET /api/apps/{appId}` - Retrieve app details
-- **Health Check**: `GET /health` - Service health status
+- `POST /api/upload` - Upload mobile app
+- `GET /api/apps/:id` - Get app details
+- `GET /api/health` - Health check
 
 ### Simulator Service (Port 3001)
-- **Create Session**: `POST /simulate` - Boot simulator and install app
-- **Health Check**: `GET /health` - Service health status
+- `POST /api/simulate` - Start simulator and install app
+- `POST /api/cleanup` - Cleanup simulators and processes
+- `GET /api/health` - Health check
 
 ### Proxy Service (Port 3002)
-- **Session Creation**: `POST /wd/hub/session` - Create Appium test sessions
-- **WebDriver Commands**: `ANY /wd/hub/session/:sessionId/...` - Execute test commands
-- **Health Check**: `GET /health` - Service health status
+- `POST /api/test` - Start test session
+- `GET /api/status` - Get test status
+- `GET /api/health` - Health check
 
-## 🔧 Configuration
+## Development
+
+### Local Development Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd mobile-testing-hub
+   ```
+
+2. **Install dependencies for local services**
+   ```bash
+   cd simulator-service
+   npm install
+   ```
+
+3. **Start services**
+   ```bash
+   # Terminal 1: Start Docker services
+   docker compose up -d
+   
+   # Terminal 2: Start local simulator service
+   ./start-simulator-service.sh
+   ```
+
+### Testing the Setup
+
+1. **Upload an app**
+   ```bash
+   curl -X POST http://localhost:3000/api/upload \
+     -F "appFile=@path/to/your/app.ipa"
+   ```
+
+2. **Start a simulator session**
+   ```bash
+   curl -X POST http://localhost:3001/api/simulate \
+     -H "Content-Type: application/json" \
+     -d '{
+       "appId": "your-app-id",
+       "deviceName": "iPhone 16 Pro",
+       "platformVersion": "18.5"
+     }'
+   ```
+
+## Configuration
 
 ### Environment Variables
 
-You can customize the behavior by setting environment variables:
+#### App Service
+- `REDIS_HOST` - Redis host (default: redis)
+- `REDIS_PORT` - Redis port (default: 6379)
+- `NODE_ENV` - Environment (default: production)
 
-```bash
-# App Service
-REDIS_HOST=redis
-REDIS_PORT=6379
-NODE_ENV=production
+#### Simulator Service
+- `APP_SERVICE_URL` - App service URL (default: http://localhost:3000)
+- `PORT` - Service port (default: 3001)
+- `NODE_ENV` - Environment (default: development)
 
-# Simulator Service
-DEVICE_NAME=iPhone 12
-PLATFORM_VERSION=14.4
-APP_SERVICE_URL=http://app-service:3000
+#### Proxy Service
+- `SIMULATOR_SERVICE_URL` - Simulator service URL (default: http://host.docker.internal:3001)
+- `NODE_ENV` - Environment (default: production)
 
-# Proxy Service
-SIMULATOR_SERVICE_URL=http://simulator-service:3001
-```
+## Troubleshooting
 
-### Docker Compose Override
+### Common Issues
 
-Create a `docker-compose.override.yml` for development:
+1. **Simulator service can't connect to app service**
+   - Ensure app service is running: `docker compose ps`
+   - Check app service logs: `docker compose logs app-service`
 
-```yaml
-version: '3.8'
-services:
-  app-service:
-    environment:
-      - NODE_ENV=development
-    volumes:
-      - ./app-service:/usr/src/app
-      - /usr/src/app/node_modules
-```
+2. **Xcode simulator issues**
+   - Verify Xcode is installed: `xcrun simctl list devices`
+   - Check Xcode command line tools: `xcode-select --install`
 
-## 🧪 Testing the Setup
-
-### 1. Upload a Test App
-
-```bash
-curl -X POST http://localhost:3000/api/upload \
-  -F "appFile=@/path/to/your/app.ipa"
-```
-
-### 2. Create a Test Session
-
-```bash
-curl -X POST http://localhost:3002/wd/hub/session \
-  -H "Content-Type: application/json" \
-  -d '{
-    "capabilities": {
-      "platformName": "iOS",
-      "appId": "your-app-id",
-      "deviceName": "iPhone 12",
-      "platformVersion": "14.4"
-    }
-  }'
-```
-
-## 📊 Monitoring
-
-### Health Checks
-
-All services include health checks:
-
-```bash
-# Check individual service health
-curl http://localhost:3000/health
-curl http://localhost:3001/health
-curl http://localhost:3002/health
-```
+3. **Appium issues**
+   - Appium is installed automatically by the simulator service
+   - Check Appium logs in simulator service output
 
 ### Logs
 
 ```bash
-# View all logs
-docker compose logs
-
-# View specific service logs
+# Docker services
 docker compose logs app-service
-docker compose logs simulator-service
 docker compose logs proxy-service
+docker compose logs redis
+
+# Local simulator service
+# Logs are displayed in the terminal where you started it
 ```
 
-## 🛠️ Development
+## Architecture Benefits
 
-### Local Development
+- **Performance**: Simulator service runs natively on macOS for optimal Xcode integration
+- **Scalability**: Docker services can be easily scaled and deployed
+- **Development**: Local simulator service allows for easy debugging and development
+- **Production**: Docker services provide consistent deployment environments
 
-```bash
-# Start only Redis for local development
-docker compose up redis -d
-```
-
-# Run services locally
-cd app-service && npm install && npm start
-cd simulator-service && npm install && npm start
-cd proxy-service && npm install && npm start
-```
-
-### Building Individual Services
-
-```bash
-# Build specific service
-docker compose build app-service
-
-# Rebuild and restart specific service
-docker compose up --build app-service
-```
-
-## 🔍 Troubleshooting
-
-### Common Issues
-
-1. **Port Conflicts**: Ensure ports 3000, 3001, 3002, 6379 are available
-2. **Memory Issues**: Increase Docker memory allocation to at least 4GB
-3. **Network Issues**: Check if containers can communicate via `docker-compose exec app-service ping simulator-service`
-
-### Debug Commands
-
-```bash
-# Enter container shell
-docker compose exec app-service sh
-docker compose exec simulator-service sh
-docker compose exec proxy-service sh
-```
-
-# Check container resources
-docker stats
-
-# View network configuration
-docker network ls
-docker network inspect mobile-testing-hub_app-network
-```
-
-## 📁 Project Structure
-
-```
-mobile-testing-hub/
-├── app-service/          # App management service
-├── simulator-service/    # Simulator management service
-├── proxy-service/        # Appium proxy service
-├── docker-compose.yml    # Main orchestration file
-└── README.md            # This file
-```
-
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests if applicable
+4. Test thoroughly
 5. Submit a pull request
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🆘 Support
-
-For issues and questions:
-- Create an issue on GitHub
-- Check the troubleshooting section above
-- Review the service-specific README files in each service directory 
+[Add your license information here] 
