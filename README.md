@@ -51,14 +51,35 @@ This system uses a hybrid approach:
 
 ## Quick Start
 
-### 1. Start Docker Services
+### Option 1: Using the Management Script (Recommended)
+
+```bash
+# Make the script executable (first time only)
+chmod +x mobile-testing-hub.sh
+
+# Setup all requirements (Docker, Xcode, Appium, etc.)
+./mobile-testing-hub.sh --setup
+
+# Start all services in Docker containers (except simulator-service)
+./mobile-testing-hub.sh --start docker
+
+# Check health of all services
+./mobile-testing-hub.sh --health
+
+# Stop all services
+./mobile-testing-hub.sh --stop
+```
+
+### Option 2: Manual Setup
+
+#### 1. Start Docker Services
 
 ```bash
 # Start app-service, proxy-service, and redis
 docker compose up -d
 ```
 
-### 2. Start Local Simulator Service
+#### 2. Start Local Simulator Service
 
 ```bash
 # Make the script executable (first time only)
@@ -68,7 +89,7 @@ chmod +x start-simulator-service.sh
 ./start-simulator-service.sh
 ```
 
-### 3. Verify Services
+#### 3. Verify Services
 
 ```bash
 # Check Docker services
@@ -94,6 +115,40 @@ curl http://localhost:3001/api/health
 - `POST /api/test` - Start test session
 - `GET /api/status` - Get test status
 - `GET /api/health` - Health check
+
+## Management Script
+
+The `mobile-testing-hub.sh` script provides comprehensive management of all services:
+
+### Available Commands
+
+```bash
+# Setup and installation
+./mobile-testing-hub.sh --setup                    # Install all requirements
+./mobile-testing-hub.sh --start                    # Start all services locally
+./mobile-testing-hub.sh --start docker             # Start services in Docker
+./mobile-testing-hub.sh --start --service <NAME>   # Start specific service
+
+# Health monitoring
+./mobile-testing-hub.sh --health                   # Check all services health
+./mobile-testing-hub.sh --health --service <NAME>  # Check specific service
+
+# Service management
+./mobile-testing-hub.sh --stop                     # Stop all services
+./mobile-testing-hub.sh --stop --service <NAME>    # Stop specific service
+
+# Help
+./mobile-testing-hub.sh --help                     # Show all available options
+```
+
+### Features
+
+- **Automatic Setup**: Installs Docker, Xcode, Node.js, Appium, and Homebrew
+- **Port Management**: Checks and frees required ports automatically
+- **Service Isolation**: Start/stop individual services or all at once
+- **Health Monitoring**: Real-time health checks for all services
+- **Docker Integration**: Seamless Docker and local service management
+- **Error Handling**: Comprehensive error checking and user feedback
 
 ## Development
 
